@@ -1,15 +1,11 @@
-.header {
-  background-color: black;
-  color: antiquewhite;
-  text-align: center;
-  padding: 10px;
+ul {
+  display: flex;
+  float: right;
 }
-.header:hover{
-  background-color: aqua;
-  color:black;
-  
+li {
+  padding: 20px;
+  list-style-type: none;
 }
-h1:hover{
-  transform: scale(1.1);
-  transition: 1.5s;
+a{
+  text-decoration: none;
 }

@@ -1,9 +1,13 @@
 import React from 'react'
 
-const Home = () => {
+const Home = (props) => {
 
   return <>
-  <p>this is home page</p>
+
+    name:{props.name}
+   - 
+    location:{props.location}
+  
   
   
   </>

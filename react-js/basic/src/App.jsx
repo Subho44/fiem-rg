@@ -1,21 +1,27 @@
-import './App.css';
-import About from './components/About';
-import Contact from './components/Contact';
-import Home from './components/Home';
-import Service from './components/Service';
+import React from 'react'
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import Home from './components/Home'
+import Navbardata from './components/Navbardata'
+import About from './components/About'
+import Contact from './components/Contact'
+import Service from './components/Service'
+import './App.css'
+const App = () => {
 
-const App = ()=> {
-  const title = "E-stock Market"
   return <>
-  <div className="header">
-  <h1>{title}</h1>
-  </div> 
-  <Home/>
-  <About/>
-  <Contact/>
-  <Service/>
+  <BrowserRouter>
+  <Navbardata/>
+  <Routes>
+    <Route path='/home' element={<Home name="raj" location="kolkata"/>}></Route>
+     <Route path='/about' element={<About/>}></Route>
+      <Route path='/contact' element={<Contact/>}></Route>
+       <Route path='/service' element={<Service/>}></Route>
+  </Routes>
+  
+  
+  </BrowserRouter>
   
   </>
 }
 
-export default App;
+export default App
