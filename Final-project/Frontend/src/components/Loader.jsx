@@ -1,9 +1,13 @@
 import React from 'react'
-
+import { Box,CircularProgress } from '@mui/material'
 const Loader = () => {
-  return (
-    <div>Loader</div>
-  )
+
+  return <>
+  <Box sx={{display:"flex", justifyContent:"center"}}>
+  <CircularProgress/>
+  </Box>
+  
+  </>
 }
 
 export default Loader
