@@ -1,8 +1,15 @@
 import React from 'react'
 import { AppBar,Toolbar,Typography,Button,Box } from '@mui/material';
-import {Link,useLocation} from "react-router-dom"
+import {Link,useLocation,useNavigate} from "react-router-dom"
 const Appnavbar = () => {
     const {pathname} = useLocation();
+    const navigate = useNavigate();
+    const token  = localStorage.getItem("token");
+
+    const hl = ()=> {
+      localStorage.removeItem("token");
+      navigate('/login');
+    }
 
   return <>
   <AppBar position='sticky' elevation={1}>
@@ -16,16 +23,51 @@ const Appnavbar = () => {
             to="/" 
             color='inherit'
             variant={pathname === "/" ? "outlined":"text"}>
-              Jobs
+              Register
+            </Button>
+            <Button 
+            component={Link} 
+            to="/login" 
+            color='inherit'
+            variant={pathname === "/login" ? "outlined":"text"}>
+              Login
             </Button>
 
-            <Button 
+            {
+               token && (
+                <>
+                 <Button 
+            component={Link} 
+            to="/home" 
+            color='inherit'
+            variant={pathname === "/home" ? "outlined":"text"}>
+              Jobs
+            </Button>
+              <Button 
             component={Link} 
             to="/add" 
             color='inherit'
             variant={pathname === "/add" ? "outlined":"text"}>
               Add Job
             </Button>
+
+            <Button 
+              color='inherit'
+              onClick={hl}
+            >
+              Logout
+            </Button>
+            
+
+                
+                </>
+               )
+
+            }
+
+
+
+          
         </Box>
     </Toolbar>
   </AppBar>
