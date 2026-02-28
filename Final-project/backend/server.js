@@ -6,6 +6,7 @@ const path = require("path");
 const connectdb = require('./config/db');
 const jobroutes = require('./routes/jobroutes');
 const authroutes = require('./routes/authRoutes');
+const paymentroutes = require('./routes/paymentRoutes');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -14,6 +15,7 @@ connectdb();
 app.use("/uploads",express.static(path.join(__dirname,"uploads")));
 app.use('/api/jobs',jobroutes);
 app.use('/api/auth',authroutes);
+app.use('/api/payments',paymentroutes);
 app.get('/',(req,res)=>{
     res.send("api is working");
 });
