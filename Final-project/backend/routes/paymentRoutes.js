@@ -1,8 +1,12 @@
-const router = require('express').Router();
+const express = require("express");
+const router = express.Router();
 
-const pctrl = require("../controller/paymentController");
+const { createOrder, verifyPayment } = require("../controller/paymentController");
 
-router.post("/creatre-order",pctrl.createOrder);
-router.post("/verify",pctrl.verifyPayment);
+// ✅ URL: /api/payments/create-order
+router.post("/create-order", createOrder);
+
+// ✅ URL: /api/payments/verify
+router.post("/verify", verifyPayment);
 
 module.exports = router;

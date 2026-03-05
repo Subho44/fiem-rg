@@ -12,13 +12,15 @@ const createOrder = async (req, res) => {
   try {
     const { amount, jobId } = req.body;
 
-    // ✅ short receipt (avoid Razorpay length error)
-    const shortJob = String(jobId).slice(-8);
-    const shortTime = String(Date.now()).slice(-6);
-    const receipt = `job_${shortJob}_${shortTime}`;
+    if (!amount || !jobId) {
+      return res.status(400).json({ success: false, message: "amount and jobId required" });
+    }
+
+    // short receipt
+    const receipt = `job_${String(jobId).slice(-6)}_${String(Date.now()).slice(-6)}`;
 
     const order = await razorpay.orders.create({
-      amount: Number(amount)*100,
+      amount: Number(amount), // amount in paise (19900)
       currency: "INR",
       receipt,
     });
@@ -39,27 +41,15 @@ const createOrder = async (req, res) => {
 // ✅ VERIFY PAYMENT
 const verifyPayment = async (req, res) => {
   try {
-    const {
-      jobId,
-      amount,
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-    } = req.body;
+    const { jobId, amount, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-    if (
-      !jobId ||
-      !amount ||
-      !razorpay_order_id ||
-      !razorpay_payment_id ||
-      !razorpay_signature
-    ) {
+    if (!jobId || !amount || !razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
       return res.status(400).json({ success: false, message: "Missing payment fields" });
     }
 
     const sign = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`) //  no spaces
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest("hex");
 
     if (sign !== razorpay_signature) {
@@ -76,11 +66,7 @@ const verifyPayment = async (req, res) => {
       status: "paid",
     });
 
-    return res.status(200).json({
-      success: true,
-      message: "Payment verified",
-      payment,
-    });
+    return res.status(200).json({ success: true, message: "Payment verified", payment });
   } catch (err) {
     return res.status(500).json({ success: false, message: err?.message || "Not verified" });
   }

@@ -12,7 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 import { getimageurl } from '../api/api';
 
-const Jobcard = ({job,onDelete}) => {
+const Jobcard = ({job,onDelete,onSubscribe}) => {
   const img = job?.jobimage ? getimageurl(job.jobimage) :"";
 
   return <>
@@ -67,6 +67,13 @@ const Jobcard = ({job,onDelete}) => {
        color='error'
        onClick={()=>onDelete(job._id)}
        >Delete</Button>
+
+       <Button
+       size='small'
+       variant='outlined'
+       color='error'
+       onClick={()=>onSubscribe(job)}
+       >Buy Now</Button>
     </CardActions>
   
   </Card>
